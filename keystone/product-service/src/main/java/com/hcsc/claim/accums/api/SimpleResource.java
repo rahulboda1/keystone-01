@@ -2,6 +2,8 @@ package com.hcsc.claim.accums.api;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1")
 public class SimpleResource {
 
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	ClaimRepository repository;
 
@@ -38,6 +42,7 @@ public class SimpleResource {
 	@ApiOperation(value = "Get all resources", nickname = "getResources")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Showing All Resources", response = Resource.class) })
 	public ResponseEntity<?> getResources() {
+		LOG.info("/resources, GET start");
 		List<Resource> res = (List<Resource>) repository.findAll();
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
@@ -53,11 +58,14 @@ public class SimpleResource {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
 			@ApiResponse(code = 404, message = "Not Found") })
 	public ResponseEntity<?> getResource(@PathVariable Long id) {
+		LOG.info("/resources/{id}, GET by Id");
 		Resource res = null;
 		res = repository.findOne(id);
 		if (ObjectUtils.isEmpty(res)) {
+			LOG.error("Data Not Found");
 			return new ResponseEntity<>("Data Not Found for Id = " + id, HttpStatus.NOT_FOUND);
 		}
+		LOG.info("Data Found");
 		return new ResponseEntity<Resource>(res, HttpStatus.OK);
 	}
 
@@ -71,6 +79,7 @@ public class SimpleResource {
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Resource succesfully created", response = Resource.class) })
 	public ResponseEntity<?> createResources(@RequestBody Resource resource) {
+		LOG.info("Create Resource POST");
 		repository.save(resource);
 		return new ResponseEntity<>("Resource Created", HttpStatus.CREATED);
 	}
@@ -80,9 +89,10 @@ public class SimpleResource {
 	 * 
 	 */
 	@PostMapping("/resources/{id}")
-	@ApiOperation(value = "Method Not Allowed", nickname = "CreateResources")
+	@ApiOperation(value = "Method Not Allowed", nickname = "Create without Id")
 	@ApiResponses(value = { @ApiResponse(code = 405, message = "Method Not Allowed") })
 	public ResponseEntity<String> createResource(@RequestBody Resource resource, @PathVariable Long id) {
+		LOG.info("POST BY ID - METHOD NOT ALLOWED");
 		String message = "Method Not Allowed";
 		return new ResponseEntity<String>(message, HttpStatus.METHOD_NOT_ALLOWED);
 	}
@@ -97,6 +107,7 @@ public class SimpleResource {
 	@ApiOperation(value = "Delete all resources", nickname = "DeleteResources")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Deleted", response = Resource.class) })
 	public ResponseEntity<String> deleteResources() {
+		LOG.info("DELETE all Resources");
 		repository.deleteAll();
 		return new ResponseEntity<String>("All Resources Deleted", HttpStatus.OK);
 	}
@@ -108,9 +119,10 @@ public class SimpleResource {
 	 * @return
 	 */
 	@PutMapping("/resources")
-	@ApiOperation(value = "Update a particular resource", nickname = "UpdateResource")
+	@ApiOperation(value = "Update Resources", nickname = "UpdateResources")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class) })
 	public ResponseEntity<Object> updateResources(@RequestBody List<Resource> resources) {
+		LOG.info("PUT Resources");
 		repository.save(resources);
 		return new ResponseEntity<>("Resources Updated Successfully.", HttpStatus.OK);
 
@@ -127,6 +139,7 @@ public class SimpleResource {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
 			@ApiResponse(code = 404, message = "Not Found"), })
 	public ResponseEntity<?> updateResource(@PathVariable Long id, @RequestBody Resource resource) {
+		LOG.info("PUT Update by Id");
 		Resource dbresponse = repository.findOne(id);
 		if (dbresponse == null) {
 			return new ResponseEntity<>("Data Not Found for ID = " + id, HttpStatus.NOT_FOUND);
@@ -147,12 +160,15 @@ public class SimpleResource {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
 			@ApiResponse(code = 404, message = "Not Found") })
 	public ResponseEntity<String> deleteResource(@PathVariable Long id) {
+		LOG.info("DELETE by Id");
 
 		Resource resource = repository.findOne(id);
 
-		if (ObjectUtils.isEmpty(resource))
+		if (ObjectUtils.isEmpty(resource)) {
+			LOG.error("Data Not Found");
 			return new ResponseEntity<String>("Data Not Found", HttpStatus.NOT_FOUND);
-
+		}
+		LOG.info("Data Found");
 		repository.delete(id);
 		return new ResponseEntity<String>("Resource Deleted", HttpStatus.OK);
 	}

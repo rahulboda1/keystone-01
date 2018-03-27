@@ -37,7 +37,7 @@
 			<charset>utf8</charset>
 		</encoder>
 	</appender>
-	<!-- <appender name="logstash"
+	<appender name="logstash"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_FILE}.json</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -81,12 +81,12 @@
 			</providers>
 		</encoder>
 	</appender>
- -->
+
 
 
 	<root level="INFO">
 		<appender-ref ref="console" />
-		<!-- <appender-ref ref="logstash" /> -->
+		<appender-ref ref="logstash" />
 		<appender-ref ref="flatfile" />
 	</root>
 

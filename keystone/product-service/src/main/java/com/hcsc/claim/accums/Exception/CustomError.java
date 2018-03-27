@@ -1,4 +1,4 @@
-package com.hcsc.claim.accums.validate;
+package com.hcsc.claim.accums.Exception;
 
 public class CustomError {
 	
