@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v2")
 public class SimpleResourceV2 {
 	
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	ClaimRepository repository;
@@ -51,13 +51,13 @@ public class SimpleResourceV2 {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
 			@ApiResponse(code = 404, message = "Not Found") })
 	public ResponseEntity<?> getResources() {
-		LOG.info("/resources, GET start");
+		logger.info(" getResources start.");
 		List<Resource> res = (List<Resource>) repository.findAll();
 		if (ObjectUtils.isEmpty(res) ) {
-			LOG.error("Data Not Found");
+			logger.error("Data Not Found.");
 			return new ResponseEntity<>("Data Not Found", HttpStatus.NOT_FOUND);
 		} else {
-			LOG.info("Data Found");
+			logger.info("Data Found.");
 			return new ResponseEntity<>(res, HttpStatus.OK);
 		}
 	}
@@ -74,15 +74,15 @@ public class SimpleResourceV2 {
 							@ApiResponse(code = 404, message = "Not Found")
 							})
 	public ResponseEntity<?> getResource(@PathVariable Long id) {
-		LOG.info("/resources/{id}, GET by Id");
+		logger.info("/resources/{id}, GET by Id");
 		Resource res = null;
 		res = repository.findOne(id);
 		if (ObjectUtils.isEmpty(res)) {
-			LOG.error("Data Not Found");
+			logger.error("Data Not Found");
 			return new ResponseEntity<>("Invalid ID", HttpStatus.NOT_FOUND);
 		
 		}
-		LOG.info("Data Found");
+		logger.info("Data Found");
 		return new ResponseEntity<>(res, HttpStatus.OK);
 
 	}
@@ -97,16 +97,16 @@ public class SimpleResourceV2 {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Created", response = Resource.class),
 			@ApiResponse(code = 400, message = "Bad Request")})
 	public ResponseEntity<?> createResource(@Valid @RequestBody Resource resource, Errors errors) {
-		LOG.info("/resources, Create Resource");
+		logger.info("/resources, Create Resource");
 		validator.validate(resource, errors);
 		if (errors.hasErrors()) {
-			LOG.error("Bad Request");
+			logger.error("Bad Request");
 			return new ResponseEntity<>(
 					new CustomError(errors.getFieldError().getField(), errors.getFieldError().getDefaultMessage()),
 					HttpStatus.BAD_REQUEST);
 		}
 		Resource resource2 = repository.save(resource);
-		LOG.info("Resource Created");
+		logger.info("Resource Created");
 		return new ResponseEntity<>(resource2, HttpStatus.CREATED);
 	}
 
@@ -119,9 +119,9 @@ public class SimpleResourceV2 {
 	@ApiOperation(value = "Deletes all resources", nickname = "DeleteResources")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Deleted", response = Resource.class)})
 	public ResponseEntity<String> deleteResources() {
-		LOG.info("Delete");
+		logger.info("Delete");
 		repository.deleteAll();
-		LOG.info("Resources Deleted");
+		logger.info("Resources Deleted");
 		return new ResponseEntity<String>("All Data Deleted", HttpStatus.OK);
 	}
 
@@ -139,10 +139,10 @@ public class SimpleResourceV2 {
 				})
 	public ResponseEntity<Object> updateResource(@PathVariable Long id, @Valid @RequestBody Resource resource,
 			Errors errors) {
-		LOG.info("Update by ID");
+		logger.info("Update by ID");
 		validator.validate(resource, errors);
 		if (errors.hasErrors()) {
-			LOG.error("Bad Request");
+			logger.error("Bad Request");
 			return new ResponseEntity<>(
 					new CustomError(errors.getFieldError().getField(), errors.getFieldError().getDefaultMessage()),
 					HttpStatus.BAD_REQUEST);
@@ -151,12 +151,12 @@ public class SimpleResourceV2 {
 		Resource dbresponse = repository.findOne(id);
 
 		if (dbresponse == null) {
-			LOG.info("Data Not Found");
+			logger.info("Data Not Found");
 			return new ResponseEntity<>("Data Not Found for ID = "+id, HttpStatus.NOT_FOUND);
 		}
 		resource.setId(id);
 		Resource res = repository.save(resource);
-		LOG.info("Resource updated");
+		logger.info("Resource updated");
 		return new ResponseEntity<>(res, HttpStatus.OK);
 
 	}
@@ -172,14 +172,14 @@ public class SimpleResourceV2 {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
 			@ApiResponse(code = 404, message = "Not Found") })
 	public ResponseEntity<?> deleteResource(@PathVariable Long id) {
-		LOG.info("Delete by Id");
+		logger.info("Delete by Id");
 		Resource dbresponse = repository.findOne(id);
 		if (dbresponse == null) {
-			LOG.error("Data Not Found");
+			logger.error("Data Not Found");
 			return new ResponseEntity<>("Data Not Found for ID = "+id, HttpStatus.NOT_FOUND);
 		}
 		repository.delete(id);
-		LOG.info("Resource Deleted by Id");
+		logger.info("Resource Deleted by Id");
 		return new ResponseEntity<>("Id =" + id + " , Deleted ", HttpStatus.OK);
 	}
 
@@ -191,7 +191,7 @@ public class SimpleResourceV2 {
 	@ApiOperation(value = "Update Resources", nickname = "UpdateResources")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class)})
 	public ResponseEntity<Object> updateResources(@Valid @RequestBody List<Resource> resources) {
-		LOG.info("Update Bulk Resources");
+		logger.info("Update Bulk Resources");
 		repository.save(resources);
 		return new ResponseEntity<>("Resources Updated Successfully.", HttpStatus.OK);
 	}
