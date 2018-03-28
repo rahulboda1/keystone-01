@@ -13,7 +13,22 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	 	<java.version>1.8</java.version>
 	</properties>
+	
+	<distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>HCSC releases</name>
+      <url>http://10.234.2.106:8081/nexus/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>HCSC snapshots</name>
+      <url>http://10.234.2.106:8081/nexus/content/repositories/snapshots</url>	
+    </snapshotRepository>
+  </distributionManagement>
+
 	<dependencies>
 		<!-- swagger-dependencies -->
 		<dependency>
@@ -46,8 +61,15 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>5.0</version>
 		</dependency>
-
-
-
 	</dependencies>
+	
+	<build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+	
 </project>
