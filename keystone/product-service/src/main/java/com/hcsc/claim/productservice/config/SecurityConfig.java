@@ -1,4 +1,4 @@
-package com.hcsc.claim.accums.config;
+package com.hcsc.claim.productservice.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

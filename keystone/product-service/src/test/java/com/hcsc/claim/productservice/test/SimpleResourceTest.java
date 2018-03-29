@@ -1,4 +1,4 @@
-package com.hcsc.claim.accums;
+package com.hcsc.claim.productservice.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,26 +30,28 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hcsc.claim.accums.api.SimpleResource;
-import com.hcsc.claim.accums.model.entity.Resource;
-import com.hcsc.claim.accums.model.repository.ClaimRepository;
+import com.hcsc.claim.productservice.api.SimpleResource;
+import com.hcsc.claim.productservice.model.entity.Resource;
+import com.hcsc.claim.productservice.model.repository.ClaimRepository;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = SimpleResource.class, secure = false)
 public class SimpleResourceTest {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
 	private ClaimRepository repository;
-	
+
 	@Test
 	public void getAllResourcesTest() throws Exception {
 
 		String jsonInString = "[{\"id\":1,\"name\":\"Jeff\",\"description\":\"Doctor\",\"subName\":\"Doc-01\",\"subId\":102},{\"id\":2,\"name\":\"John\",\"description\":\"Patient\",\"subName\":\"Pat-01\",\"subId\":103}]";
 		List<Resource> listOfResource = buildMockResponseList(jsonInString);
 		Mockito.when(repository.findAll()).thenReturn(listOfResource);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/simple/v1/resources")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/resources")
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		JSONAssert.assertEquals(jsonInString, result.getResponse().getContentAsString(), false);
@@ -55,63 +59,59 @@ public class SimpleResourceTest {
 
 	@Test
 	public void getResourceTest() throws Exception {
-		
+
 		String jsonInString = "{\"id\":1,\"name\":\"Jeff\",\"description\":\"Doctor\",\"subName\":\"Doc-01\",\"subId\":102}";
 		Resource resource = buildMockResponse(jsonInString);
 		Mockito.when(repository.findOne(anyLong())).thenReturn(resource);
-		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/simple/v1/resources/1")
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/resources/1")
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		JSONAssert.assertEquals(jsonInString, result.getResponse().getContentAsString(), false);
 
 	}
-	
+
 	@Test
 	public void createResourceTest() throws Exception {
-		
+
 		String jsonInString = "{\"id\":0,\"name\":\"Jeff\",\"description\":\"Doctor\",\"subName\":\"Doc-01\",\"subId\":102}";
 		Resource resource = buildMockResponse(jsonInString);
 		Mockito.when(repository.save(resource)).thenReturn(resource);
-		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/simple/v1/resources")
-				.accept(MediaType.APPLICATION_JSON).content(jsonInString)
-				.contentType(MediaType.APPLICATION_JSON);
-		
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/resources")
+				.accept(MediaType.APPLICATION_JSON).content(jsonInString).contentType(MediaType.APPLICATION_JSON);
+
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
-		System.out.println(response.getContentAsString());
+		logger.info(response.getContentAsString());
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 		assertEquals(response.getContentAsString(), "Resource Created");
 	}
-	
+
 	@Test
 	public void deleteAllResourceTest() throws Exception {
 		doNothing().when(repository).deleteAll();
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.delete("/simple/v1/resources");
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/resources");
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
-	
+
 	@Test
 	public void deleteResourceTest() throws Exception {
 
 		String jsonInString = "{\"id\":1,\"name\":\"Jeff\",\"description\":\"Doctor\",\"subName\":\"Doc-01\",\"subId\":102}";
 		Resource resource = buildMockResponse(jsonInString);
-		
+
 		Mockito.when(repository.findOne(resource.getId())).thenReturn(resource);
 		doNothing().when(repository).delete(resource.getId());
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.delete("/simple/v1/resources/{id}",resource.getId());
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/resources/{id}", resource.getId());
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 
 	}
-	
+
 	@Test
 	public void updateResourceTest() throws Exception {
 
@@ -119,26 +119,25 @@ public class SimpleResourceTest {
 		Resource resource = buildMockResponse(jsonInString);
 		Mockito.when(repository.findOne(resource.getId())).thenReturn(resource);
 		Mockito.when(repository.save(resource)).thenReturn(resource);
-		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.put("/simple/v1/resources/{id}",resource.getId()).accept(MediaType.APPLICATION_JSON).content(jsonInString)
-				.contentType(MediaType.APPLICATION_JSON);
-		
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v1/resources/{id}", resource.getId())
+				.accept(MediaType.APPLICATION_JSON).content(jsonInString).contentType(MediaType.APPLICATION_JSON);
+
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
-		
+
 		assertNotNull(response.getContentAsString());
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
-		
+
 		Resource res = buildMockResponse(response.getContentAsString());
-		assertEquals(res.getId(),Long.valueOf("1"));
-		assertEquals(res.getName(),"Jeff");
-		assertEquals(res.getDescription(),"Doctor");
-		assertEquals(res.getSubName(),"Doc-01");
-		assertEquals(res.getSubId(),"102");
-		
+		assertEquals(res.getId(), Long.valueOf("1"));
+		assertEquals(res.getName(), "Jeff");
+		assertEquals(res.getDescription(), "Doctor");
+		assertEquals(res.getSubName(), "Doc-01");
+		assertEquals(res.getSubId(), Long.valueOf("102"));
+
 	}
-	
+
 	private Resource buildMockResponse(String jsonInString)
 			throws IOException, JsonParseException, JsonMappingException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -151,6 +150,5 @@ public class SimpleResourceTest {
 		return mapper.readValue(jsonInString, new TypeReference<List<Resource>>() {
 		});
 	}
-
 
 }

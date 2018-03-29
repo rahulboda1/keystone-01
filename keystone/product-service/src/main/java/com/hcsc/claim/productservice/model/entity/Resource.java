@@ -1,4 +1,4 @@
-package com.hcsc.claim.accums.model.entity;
+package com.hcsc.claim.productservice.model.entity;
 
 import java.io.Serializable;
 
@@ -14,11 +14,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Resource implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@NotEmpty
 	private String name;
 	@NotEmpty
@@ -33,8 +33,16 @@ public class Resource implements Serializable {
 	}
 
 	public Resource(Long id, String name, String description, String subName, Long subId) {
-		super();
+		this();
 		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.subName = subName;
+		this.subId = subId;
+	}
+
+	public Resource(String name, String description, String subName, Long subId) {
+		this();
 		this.name = name;
 		this.description = description;
 		this.subName = subName;
