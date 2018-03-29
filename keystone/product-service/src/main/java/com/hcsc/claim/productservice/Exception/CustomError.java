@@ -1,4 +1,4 @@
-package com.hcsc.claim.accums.Exception;
+package com.hcsc.claim.productservice.Exception;
 
 public class CustomError {
 	

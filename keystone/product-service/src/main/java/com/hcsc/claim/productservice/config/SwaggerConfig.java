@@ -1,4 +1,4 @@
-	package com.hcsc.claim.accums.config;
+	package com.hcsc.claim.productservice.config;
 
 import java.util.ArrayList;
 import org.springframework.boot.bind.RelaxedPropertyResolver;

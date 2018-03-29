@@ -1,11 +1,11 @@
-package com.hcsc.claim.accums.Exception;
+package com.hcsc.claim.productservice.Exception;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.hcsc.claim.accums.model.entity.Resource;
+import com.hcsc.claim.productservice.model.entity.Resource;
 
 @Component
 public class ResourceValidator implements Validator {
