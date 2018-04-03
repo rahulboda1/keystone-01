@@ -1,20 +1,30 @@
-package com.hcsc.claim.productservice.Exception;
+package com.hcsc.claim.simple.exception;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.hcsc.claim.productservice.model.entity.Resource;
+import com.hcsc.claim.simple.model.entity.Resource;
 
+/**
+ * @author Rahul
+ *
+ */
 @Component
 public class ResourceValidator implements Validator {
 
+	/* (non-Javadoc)
+	 * @see org.springframework.validation.Validator#supports(java.lang.Class)
+	 */
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Resource.class.equals(clazz);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
+	 */
 	@Override
 	public void validate(Object obj, Errors errors) {
 

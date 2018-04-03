@@ -1,5 +1,9 @@
-package com.hcsc.claim.productservice.Exception;
+package com.hcsc.claim.simple.exception;
 
+/**
+ * @author Rahul
+ *
+ */
 public class CustomError {
 	
 	private String name;
@@ -9,21 +13,38 @@ public class CustomError {
 		super();
 	}
 	
+	
+	/**
+	 * @param name
+	 * @param message
+	 */
 	public CustomError(String name, String message) {
 		this();
 		this.name = name;
 		this.message = message;
 	}
 	
+	/**
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
+	/**
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	/**
+	 * @return
+	 */
 	public String getMessage() {
 		return message;
 	}
+	/**
+	 * @param message
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}

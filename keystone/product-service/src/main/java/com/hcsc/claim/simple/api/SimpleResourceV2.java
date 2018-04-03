@@ -1,4 +1,4 @@
-package com.hcsc.claim.productservice.api;
+package com.hcsc.claim.simple.api;
 
 import java.util.List;
 
@@ -20,15 +20,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hcsc.claim.productservice.Exception.CustomError;
-import com.hcsc.claim.productservice.Exception.ResourceValidator;
-import com.hcsc.claim.productservice.model.entity.Resource;
-import com.hcsc.claim.productservice.model.repository.ClaimRepository;
+import com.hcsc.claim.simple.exception.CustomError;
+import com.hcsc.claim.simple.exception.ResourceValidator;
+import com.hcsc.claim.simple.model.entity.Resource;
+import com.hcsc.claim.simple.model.repository.ClaimRepository;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+/**
+ * @author Rahul
+ *
+ */
 @RestController
 @RequestMapping("/api/v2")
 public class SimpleResourceV2 {
@@ -63,31 +67,6 @@ public class SimpleResourceV2 {
 	}
 
 	/**
-	 * Return specific Resource based on id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@GetMapping("/resources/{id}")
-	@ApiOperation(value = "Get a particular resource", nickname = "getResource")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
-							@ApiResponse(code = 404, message = "Not Found")
-							})
-	public ResponseEntity<?> getResource(@PathVariable Long id) {
-		logger.info("/resources/{id}, GET by Id");
-		Resource res = null;
-		res = repository.findOne(id);
-		if (ObjectUtils.isEmpty(res)) {
-			logger.error("Data Not Found");
-			return new ResponseEntity<>("Invalid ID", HttpStatus.NOT_FOUND);
-		
-		}
-		logger.info("Data Found");
-		return new ResponseEntity<>(res, HttpStatus.OK);
-
-	}
-
-	/**
 	 * Create new Resource
 	 * 
 	 * @return
@@ -109,6 +88,22 @@ public class SimpleResourceV2 {
 		logger.info("Resource Created");
 		return new ResponseEntity<>(resource2, HttpStatus.CREATED);
 	}
+	
+	 /**
+   * Bulk Update
+   *
+   * @param resources
+   * @return
+   */
+  @PutMapping("/resources")
+  @ApiOperation(value = "Update Resources", nickname = "UpdateResources")
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class)})
+  public ResponseEntity<Object> updateResources(@Valid @RequestBody List<Resource> resources) {
+    logger.info("Update Bulk Resources");
+    repository.save(resources);
+    return new ResponseEntity<>("Resources Updated Successfully.", HttpStatus.OK);
+  }
+
 
 	/**
 	 * delete all the resources
@@ -125,6 +120,31 @@ public class SimpleResourceV2 {
 		return new ResponseEntity<String>("All Data Deleted", HttpStatus.OK);
 	}
 
+	/**
+   * Return specific Resource based on id
+   * 
+   * @param id
+   * @return
+   */
+  @GetMapping("/resources/{id}")
+  @ApiOperation(value = "Get a particular resource", nickname = "getResource")
+  @ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class),
+              @ApiResponse(code = 404, message = "Not Found")
+              })
+  public ResponseEntity<?> getResource(@PathVariable Long id) {
+    logger.info("/resources/{id}, GET by Id");
+    Resource res = null;
+    res = repository.findOne(id);
+    if (ObjectUtils.isEmpty(res)) {
+      logger.error("Data Not Found");
+      return new ResponseEntity<>("Invalid ID", HttpStatus.NOT_FOUND);
+    
+    }
+    logger.info("Data Found");
+    return new ResponseEntity<>(res, HttpStatus.OK);
+
+  }
+	
 	/**
 	 * Update resource with id
 	 * 
@@ -181,19 +201,6 @@ public class SimpleResourceV2 {
 		repository.delete(id);
 		logger.info("Resource Deleted by Id");
 		return new ResponseEntity<>("Id =" + id + " , Deleted ", HttpStatus.OK);
-	}
-
-	/**
-	 * Bulk Update
-	 */
-
-	@PutMapping("/resources")
-	@ApiOperation(value = "Update Resources", nickname = "UpdateResources")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Resource.class)})
-	public ResponseEntity<Object> updateResources(@Valid @RequestBody List<Resource> resources) {
-		logger.info("Update Bulk Resources");
-		repository.save(resources);
-		return new ResponseEntity<>("Resources Updated Successfully.", HttpStatus.OK);
 	}
 
 }
