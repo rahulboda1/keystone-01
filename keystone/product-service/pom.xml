@@ -8,70 +8,43 @@
 		<artifactId>keystone</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<groupId>com.hcsc.claim.simple</groupId>
 	<artifactId>product-service</artifactId>
 	<name>product-service</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	 	<java.version>1.8</java.version>
+		<java.version>1.8</java.version>
 	</properties>
-	
+
 	<distributionManagement>
-    <repository>
-      <id>releases</id>
-      <name>HCSC releases</name>
-      <url>http://10.234.2.106:8081/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>HCSC snapshots</name>
-      <url>http://10.234.2.106:8081/nexus/content/repositories/snapshots</url>	
-    </snapshotRepository>
-  </distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>HCSC releases</name>
+			<url>http://10.234.2.106:8081/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>HCSC snapshots</name>
+			<url>http://10.234.2.106:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
-		<!-- swagger-dependencies -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<!-- Commented since started using custom UI -->
-		<!--
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-         -->
-		<!-- JPA Dependency -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<!-- h2-DB -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
-		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>5.0</version>
+			<groupId>com.hcsc.claim.simple</groupId>
+			<artifactId>common-components</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
