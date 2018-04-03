@@ -92,7 +92,7 @@ public class SimpleResource {
   @ApiOperation(value = "Delete all resources", nickname = "DeleteResources")
   @ApiResponses(value = { @ApiResponse(code = 200, message = "Deleted", response = Resource.class) })
   public ResponseEntity<String> deleteResources() {
-    LOG.info("DELETE all Resources");
+    LOG.info("Delete all the resources");
     repository.deleteAll();
     return new ResponseEntity<String>("All Resources Deleted", HttpStatus.OK);
   }
