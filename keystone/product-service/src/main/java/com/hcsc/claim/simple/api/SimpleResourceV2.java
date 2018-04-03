@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hcsc.claim.simple.Exception.CustomError;
-import com.hcsc.claim.simple.Exception.ResourceValidator;
+import com.hcsc.claim.simple.exception.CustomError;
+import com.hcsc.claim.simple.exception.ResourceValidator;
 import com.hcsc.claim.simple.model.entity.Resource;
 import com.hcsc.claim.simple.model.repository.ClaimRepository;
 

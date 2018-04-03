@@ -1,4 +1,4 @@
-package com.hcsc.claim.simple.Exception;
+package com.hcsc.claim.simple.exception;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

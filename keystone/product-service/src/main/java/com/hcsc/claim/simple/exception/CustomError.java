@@ -1,4 +1,4 @@
-package com.hcsc.claim.simple.Exception;
+package com.hcsc.claim.simple.exception;
 
 /**
  * @author Rahul
