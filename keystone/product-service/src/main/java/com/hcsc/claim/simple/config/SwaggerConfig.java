@@ -1,4 +1,4 @@
-	package com.hcsc.claim.productservice.config;
+package com.hcsc.claim.simple.config;
 
 import java.util.ArrayList;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
@@ -59,7 +59,6 @@ public class SwaggerConfig implements EnvironmentAware {
 	 * @return ApiInfo
 	 * 
 	 */
-
 	public ApiInfo apiInfo() {
 		ApiInfo apiinfo = new ApiInfo(propertyResolver.getProperty("title"),
 				propertyResolver.getProperty("description"), "v1", propertyResolver.getProperty("termsOfServiceUrl"),
