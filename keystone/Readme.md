@@ -1,7 +1,7 @@
 ﻿# Keystone REST API
 Kestone REST API Document
 
-Date : 03/29/2018
+Date : 04/03/2018
 # Design
   Kestone project has implemented the CRUD operations. 
 
@@ -17,40 +17,55 @@ Date : 03/29/2018
 - In-Memory database [H2 DB]
 
 #Project Structure
+```
+keystone
+   ├───common-components
+   │   └───src
+   │       ├───main
+   │       │   └───java
+   │       │       └───com
+   │       │           └───hcsc
+   │       │               └───claim
+   │       │                   └───simple
+   │       │                       ├───config
+   │       │                       └───exception
+   │       └───test
+   │           └───java
+   │               └───com
+   │                   └───hcsc
+   │                       └───claim
+   │                           └───simple
+   └───product-service
+       └───src
+           ├───main
+           │   ├───java
+           │   │   └───com
+           │   │       └───hcsc
+           │   │           └───claim
+           │   │               └───simple
+           │   │                   ├───api
+           │   │                   ├───exception
+           │   │                   └───model
+           │   │                       ├───entity
+           │   │                       └───repository
+           │   └───resources
+           │       └───META-INF
+           │           └───resources
+           │               └───webjars
+           │                   └───springfox-swagger-ui
+           │                       ├───css
+           │                       ├───fonts
+           │                       ├───images
+           │                       ├───lang
+           │                       └───lib
+           └───test-classes
+               └───java
+                   └───com
+                       └───hcsc
+                           └───claim
+                               └───simple
+                                   └───test
 
-```bash
-└───keystone
-    └───product-service
-        └───src
-            ├───main
-            │   ├───java
-            │   │   └───com
-            │   │       └───hcsc
-            │   │           └───claim
-            │   │               └───productservice
-            │   │                   ├───api
-            │   │                   ├───config
-            │   │                   ├───Exception
-            │   │                   └───model
-            │   │                       ├───entity
-            │   │                       └───repository
-            │   └───resources
-            │       └───META-INF
-            │           └───resources
-            │               └───webjars
-            │                   └───springfox-swagger-ui
-            │                       ├───css
-            │                       ├───fonts
-            │                       ├───images
-            │                       ├───lang
-            │                       └───lib
-            └───test
-                └───java
-                    └───com
-                        └───hcsc
-                            └───claim
-                                └───productservice
-															└───test
 ```
 
 

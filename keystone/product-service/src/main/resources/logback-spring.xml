@@ -6,47 +6,11 @@
 		source="spring.application.name" />
 
 	<property name="LOG_FILE" value="product-service.log" />
-
-	<property name="CONSOLE_LOG_PATTERN"
-
-		value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
-
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>INFO</level>
 		</filter>
-		<encoder>
-			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
-			<charset>utf8</charset>
-		</encoder>
-	</appender>
-
-
-
-	<appender name="flatfile"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-		<file>${LOG_FILE}</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<maxHistory>7</maxHistory>
-		</rollingPolicy>
-
-		<encoder>
-			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
-			<charset>utf8</charset>
-		</encoder>
-	</appender>
-	
-	<appender name="logstash"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_FILE}.json</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_FILE}.json.%d{yyyy-MM-dd}.gz</fileNamePattern>
-			<maxHistory>7</maxHistory>
-		</rollingPolicy>
-		
-		<encoder
+				<encoder
 			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
 			<providers>
 				<timestamp>
@@ -71,13 +35,40 @@
 			</providers>
 		</encoder>
 	</appender>
-     
 
 
 	<root level="INFO">
 		<appender-ref ref="console" />
-		<appender-ref ref="logstash" />
-		<appender-ref ref="flatfile" />
 	</root>
 
 </configuration>
+<!--  <appender name="flatfile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<file>${LOG_FILE}</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	
+	<appender name="logstash"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}.json</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.json.%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		
+
+	</appender> 
+     
+	 <root level="INFO">
+		<appender-ref ref="logstash" />
+		<appender-ref ref="flatfile" />
+		</root>  -->

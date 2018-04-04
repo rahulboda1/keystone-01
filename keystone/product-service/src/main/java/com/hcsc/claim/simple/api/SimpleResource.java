@@ -1,4 +1,3 @@
-
 package com.hcsc.claim.simple.api;
 
 import java.util.List;
@@ -47,9 +46,9 @@ public class SimpleResource {
   @ApiOperation(value = "Get all resources", nickname = "getResources")
   @ApiResponses(value = { @ApiResponse(code = 200, message = "Showing All Resources", response = Resource.class) })
   public ResponseEntity<?> getResources() {
-    LOG.info("/resources, GET start");
+    LOG.info("Get Resources");
     List<Resource> res = (List<Resource>) repository.findAll();
-    return new ResponseEntity<>(res, HttpStatus.OK);
+    return new ResponseEntity<>(res, HttpStatus.OK); 
   }
 
   /**

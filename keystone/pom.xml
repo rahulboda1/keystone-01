@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hcsc.claim</groupId>
+	<groupId>com.hcsc.claim.simple</groupId>
 	<artifactId>keystone</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -26,13 +26,14 @@
 	</properties>
 
 	<modules>
-		<module>product-service</module>
 		<module>common-components</module>
+		<module>product-service</module>
 	</modules>
 
 
 	<dependencies>
-
+       
+       
 		<!-- starter-web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -71,6 +72,8 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
 	</dependencies>
 
 	<dependencyManagement>
